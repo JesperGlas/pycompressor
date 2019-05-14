@@ -45,16 +45,16 @@ class Node():
     r_node = None
     l_node = None
 
-    def ___init__(self, value, r_node, l_node):
-        self.value = value
+    def ___init__(self, data, r_node, l_node):
+        self.data = data
         self.r_node = r_node
         self.l_node = l_node
 
-    def setValue(self, value):
-        self.value = value
+    def setValue(self, data):
+        self.data = data
     
     def getValue(self):
-        return self.value
+        return self.data
 
     def setRNode(self, node):
         self.r_node = node
@@ -110,6 +110,8 @@ with open(sys.argv[1], 'r') as input_file:
     # Sort freq_arr based on frequency
     freq_arr = sortFreqArray(freq_arr)
     print(freq_arr)
+
+    root_node =
         
     output = open('output.txt', 'w+')
     print('Output file size: ', os.path.getsize(OUTPUT_PATH))
