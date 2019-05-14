@@ -38,23 +38,28 @@ def sortFreqArray(input_arr):
     
     return sorted_arr
 
+
 # Classes
 
 class Node():
 
-    r_node = None
-    l_node = None
-
-    def ___init__(self, data, r_node, l_node):
+    def __init__(self, sorting, data):
+        self.sorting = sorting
         self.data = data
-        self.r_node = r_node
-        self.l_node = l_node
+        self.r_node = None
+        self.l_node = None
 
-    def setValue(self, data):
-        self.data = data
+    def setSorting(self, sorting):
+        self.sorting = sorting
     
-    def getValue(self):
-        return self.data
+    def getSorting(self):
+        return self.sorting
+
+    def setData(self, data):
+        self.data = data
+
+    def getData(self):
+        return data
 
     def setRNode(self, node):
         self.r_node = node
@@ -67,6 +72,53 @@ class Node():
 
     def getLNode(self):
         return self.l_node
+
+class HuffmanTree():
+
+    def __init__(self):
+        self.root = None
+
+    def getRoot(self):
+        return self.root
+    
+    def add(self, sorting, data):
+        if self.root == None:
+            self.root = Node(sorting, data)
+        else:
+            self._add(sorting, data, Node(sorting, data))
+        
+    def _add(self, sorting, data, node):
+        if sorting < node.getSorting():
+            if(node.getLNode() != None):
+                self._add(sorting, data, node.getLNode())
+            else:
+                node.setLNode(Node(sorting, data))
+        elif sorting > node.getSorting():
+            if(node.getRNode() != None):
+                self._add(sorting, data, sorting.r_node)
+            else:
+                node.setRNode(Node(sorting, data))
+        else:
+            new_sorting = 0
+            if node.getLNode() != None:
+                new_sorting += node.getLNode().getSorting()
+            if node.getRNode() != None:
+                new_sorting += node.getRNode().getSorting()
+            new_node = Node(new_sorting, None)
+            new_node.setRNode(node)
+            new_node.setLNode(Node(sorting, data))
+            node = new_node
+
+    def printTree(self):
+        self._printTree(self.root, 0)
+
+    def _printTree(self, node, layer):
+        print('>' * layer, node.getSorting(), node.getData)
+        if node.getLNode() != None:
+            self._printTree(node.getLNode(), layer + 1)
+        if node.getRNode() != None:
+            self._printTree(node.getRNode(), layer + 1)
+
 
 with open(sys.argv[1], 'r') as input_file:
     input_path = './' + sys.argv[1]
@@ -108,10 +160,14 @@ with open(sys.argv[1], 'r') as input_file:
                     idx += 1
                 
     # Sort freq_arr based on frequency
-    freq_arr = sortFreqArray(freq_arr)
+    freq_arr = sortFreqArray(freq_arr) 
     print(freq_arr)
+    
+    huffman_tree = HuffmanTree()
+    for element in freq_arr:
+        huffman_tree.add(element[1], element[0])
 
-    root_node =
+    huffman_tree.printTree()
         
     output = open('output.txt', 'w+')
     print('Output file size: ', os.path.getsize(OUTPUT_PATH))
