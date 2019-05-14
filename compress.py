@@ -59,7 +59,7 @@ class Node():
         self.data = data
 
     def getData(self):
-        return data
+        return self.data
 
     def setRNode(self, node):
         self.r_node = node
@@ -88,36 +88,39 @@ class HuffmanTree():
             self._add(sorting, data, Node(sorting, data))
         
     def _add(self, sorting, data, node):
-        if sorting < node.getSorting():
-            if(node.getLNode() != None):
+        if sorting < node.sorting:
+            print('Sorting is larger than node.sorting')
+            if(node.l_node != None):
                 self._add(sorting, data, node.getLNode())
             else:
-                node.setLNode(Node(sorting, data))
-        elif sorting > node.getSorting():
-            if(node.getRNode() != None):
+                node.l_node = Node(sorting, data)
+        elif sorting > node.sorting:
+            print('Sorting is larger than node.sorting')
+            if(node.r_node != None):
                 self._add(sorting, data, sorting.r_node)
             else:
-                node.setRNode(Node(sorting, data))
+                node.r_node = Node(sorting, data)
         else:
+            print('Sorting is equal to node.sorting')
             new_sorting = 0
-            if node.getLNode() != None:
-                new_sorting += node.getLNode().getSorting()
-            if node.getRNode() != None:
-                new_sorting += node.getRNode().getSorting()
+            if node.l_node != None:
+                new_sorting += node.l_node.sorting
+            if node.r_node != None:
+                new_sorting += node.r_node.sorting
             new_node = Node(new_sorting, None)
-            new_node.setRNode(node)
-            new_node.setLNode(Node(sorting, data))
+            new_node.r_node = node
+            new_node.l_node = Node(sorting, data)
             node = new_node
 
     def printTree(self):
         self._printTree(self.root, 0)
 
     def _printTree(self, node, layer):
-        print('>' * layer, node.getSorting(), node.getData)
-        if node.getLNode() != None:
-            self._printTree(node.getLNode(), layer + 1)
-        if node.getRNode() != None:
-            self._printTree(node.getRNode(), layer + 1)
+        print('>' * layer, node.sorting, node.data)
+        if node.l_node != None:
+            self._printTree(node.l_node, layer + 1)
+        if node.r_node != None:
+            self._printTree(node.r_node, layer + 1)
 
 
 with open(sys.argv[1], 'r') as input_file:
