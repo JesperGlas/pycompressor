@@ -1,4 +1,4 @@
 # PyCompressor
 
 ## Description
-A project in learning file compression using Python3.
+A project for learning file compression using Python3.
